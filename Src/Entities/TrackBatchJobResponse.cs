@@ -41,5 +41,5 @@ public class TrackBatchJobResponse
     [JsonPropertyName("request_counts")]
     public RequestCounts? RequestCounts { get; set; }
     [JsonPropertyName("status")]
-    public TrackBatchJob Status { get; set; }
+    public TrackBatchJobStatus Status { get; set; }
 }

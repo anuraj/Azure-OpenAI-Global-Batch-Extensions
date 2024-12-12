@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace BatchExtensions.Entities;
 
-public enum TrackBatchJob
+public enum TrackBatchJobStatus
 {
     [JsonPropertyName("validating")]
     Validating,

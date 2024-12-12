@@ -54,4 +54,6 @@ public interface IBatchProcessingService
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains the byte array of the downloaded file.</returns>
     Task<byte[]> DownloadFileAsync(string outputFileId, CancellationToken cancellationToken = default);
+
+    Task<List<BatchJobResponse>?> DownloadBatchResponseAsync(string outputFileId, CancellationToken cancellationToken = default);
 }

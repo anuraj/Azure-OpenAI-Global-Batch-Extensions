@@ -1,6 +1,10 @@
 using BatchExtensions.Entities;
+
+using System.Buffers;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using System.Text;
+using System.Text.Json;
 
 namespace BatchExtensions.Core;
 
@@ -103,5 +107,28 @@ public class BatchProcessingService(string resourceName, string apiKey, string a
         _httpClient.DefaultRequestHeaders.Add("api-key", apiKey);
         var url = $"https://{resourceName}.openai.azure.com/openai/files/{outputFileId}/content?api-version={apiVersion}";
         return _httpClient.GetByteArrayAsync(url, cancellationToken);
+    }
+
+    public async Task<List<BatchJobResponse>?> DownloadBatchResponseAsync(string outputFileId, CancellationToken cancellationToken = default)
+    {
+        _httpClient.DefaultRequestHeaders.Add("api-key", apiKey);
+        var url = $"https://{resourceName}.openai.azure.com/openai/files/{outputFileId}/content?api-version={apiVersion}";
+        var jsonResponse = await _httpClient.GetStringAsync(url, cancellationToken);
+        var jsonItems = jsonResponse.Split(['\n'], StringSplitOptions.RemoveEmptyEntries);
+        if (jsonItems.Length > 0)
+        {
+            var batchJobResponses = new List<BatchJobResponse>();
+            foreach (var jsonItem in jsonItems)
+            {
+                var batchJobResponse = JsonSerializer.Deserialize<BatchJobResponse>(jsonItem);
+                if (batchJobResponse != null)
+                {
+                    batchJobResponses.Add(batchJobResponse);
+                }
+            }
+            return batchJobResponses;
+        }
+
+        return null;
     }
 }
