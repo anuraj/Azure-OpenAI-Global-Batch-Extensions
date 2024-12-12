@@ -126,6 +126,7 @@ public class BatchProcessingService(string resourceName, string apiKey, string a
                     batchJobResponses.Add(batchJobResponse);
                 }
             }
+
             return batchJobResponses;
         }
 
