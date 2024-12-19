@@ -56,4 +56,5 @@ public interface IBatchProcessingService
     Task<byte[]> DownloadFileAsync(string outputFileId, CancellationToken cancellationToken = default);
 
     Task<List<BatchJobResponse>?> DownloadBatchResponseAsync(string outputFileId, CancellationToken cancellationToken = default);
+    Task<UploadResponse?> UploadFileAsync(string model, string systemPrompt, string[] userPrompts, string method = "POST", string url = "/chat/completions", CancellationToken cancellationToken = default);
 }

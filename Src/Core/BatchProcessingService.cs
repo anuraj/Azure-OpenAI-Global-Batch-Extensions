@@ -109,6 +109,12 @@ public class BatchProcessingService(string resourceName, string apiKey, string a
         return _httpClient.GetByteArrayAsync(url, cancellationToken);
     }
 
+    /// <summary>
+    /// Downloads a batch response file asynchronously.
+    /// </summary>
+    /// <param name="outputFileId"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
     public async Task<List<BatchJobResponse>?> DownloadBatchResponseAsync(string outputFileId, CancellationToken cancellationToken = default)
     {
         _httpClient.DefaultRequestHeaders.Add("api-key", apiKey);
@@ -131,5 +137,51 @@ public class BatchProcessingService(string resourceName, string apiKey, string a
         }
 
         return null;
+    }
+
+    /// <summary>
+    /// Uploads a file asynchronously.
+    /// </summary>
+    /// <param name="model"></param>
+    /// <param name="systemPrompt"></param>
+    /// <param name="userPrompts"></param>
+    /// <param name="method"></param>
+    /// <param name="url"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public async Task<UploadResponse?> UploadFileAsync(string model, string systemPrompt, string[] userPrompts, string method = "POST", string url = "/chat/completions", CancellationToken cancellationToken = default)
+    {
+        var stringBuilder = new StringBuilder();
+        for (int i = 0; i < userPrompts.Length; i++)
+        {
+            var fileRequest = new FileRequest()
+            {
+                CustomId = $"task-{i}",
+                Method = method,
+                Url = url,
+                Body = new FileRequestBody()
+                {
+                    Model = model,
+                    Messages =
+                    [
+                        new Message()
+                        {
+                            Role = "system",
+                            Content = systemPrompt
+                        },
+                        new Message()
+                        {
+                            Role = "user",
+                            Content = userPrompts[i]
+                        }
+                    ]
+                }
+            };
+            stringBuilder.AppendLine(JsonSerializer.Serialize(fileRequest));
+        }
+
+        var tempFilePath = Path.ChangeExtension(Path.GetTempFileName(), ".jsonl");
+        await File.WriteAllTextAsync(tempFilePath, stringBuilder.ToString(), cancellationToken);
+        return await UploadFileAsync(tempFilePath, cancellationToken);
     }
 }

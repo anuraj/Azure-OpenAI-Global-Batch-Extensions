@@ -4,6 +4,27 @@ The Azure OpenAI Batch API is designed to handle large-scale and high-volume pro
 
 This is a C# wrapper on top of the REST endpoints.
 
+### Without jsonl file.
+
+```csharp
+var batchProcessingService = new BatchProcessingService(resourceName, apiKey);
+var userPrompts = new List<string>()
+{
+    "When was Microsoft founded?",
+    "When was the first XBOX released?",
+    "Who is the CEO of Microsoft?",
+    "What is Altair Basic?"
+};
+
+var uploadResponse = await batchProcessingService.UploadFileAsync("gpt-4o-mini", 
+    "You are an AI assistant that helps people find information.",
+    [.. userPrompts]);
+var fileInputId = uploadResponse.Id;
+Console.WriteLine($"File uploaded successfully with file input id: {fileInputId}");
+```
+
+### With jsonl file
+
 ```csharp
 var batchProcessingService = new BatchProcessingService(resourceName, apiKey);
 
