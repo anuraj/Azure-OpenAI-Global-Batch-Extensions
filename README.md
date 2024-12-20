@@ -21,6 +21,23 @@ var uploadResponse = await batchProcessingService.UploadFileAsync("gpt-4o-mini",
     [.. userPrompts]);
 var fileInputId = uploadResponse.Id;
 Console.WriteLine($"File uploaded successfully with file input id: {fileInputId}");
+foreach (var job in jobs.Data)
+{
+    Console.WriteLine($"Job Id: {job.Id}, Status: {job.Status}");
+    if(job.Status == "completed")
+    {
+        var responses = await batchProcessingService.DownloadBatchResponseAsync(job.OutputFileId);
+        foreach (var response in responses)
+        {
+            response.Response.Body.Choices.ForEach(choice =>
+            {
+                Console.WriteLine(choice.Message.Content);
+            });
+            
+            Console.WriteLine();
+        }
+    }
+}
 ```
 
 ### With jsonl file
@@ -44,7 +61,7 @@ foreach (var job in jobs.Data)
     Console.WriteLine($"Job Id: {job.Id}, Status: {job.Status}");
     if(job.Status == "completed")
     {
-        var output = await batchProcessingService.DownloadFileAsync(job.Id);
+        var output = await batchProcessingService.DownloadFileAsync(job.OutputFileId);
         File.WriteAllBytes(@$"C:\BatchOutput\{job.Id}.jsonl", output);
     }
 }
