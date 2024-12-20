@@ -31,7 +31,7 @@ jobs:
           dotnet-version: 8.0.x
 
       - name: Build with dotnet
-        run: dotnet build .\Src\ --configuration Release --output ${{env.DOTNET_ROOT}}\Output
+        run: dotnet build .\Src\BatchExtensions.csproj --configuration Release --output ${{env.DOTNET_ROOT}}\Output
 
       - name: Running Tests
         run: dotnet test
