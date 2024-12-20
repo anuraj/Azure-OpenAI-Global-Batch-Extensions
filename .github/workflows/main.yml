@@ -29,12 +29,15 @@ jobs:
         uses: actions/setup-dotnet@v4.1.0
         with:
           dotnet-version: 8.0.x
-          
+
       - name: Build with dotnet
         run: dotnet build --configuration Release
 
+      - name: Running Tests
+        run: dotnet test
+
       - name: Build the NuGet package
-        run: dotnet pack --configuration Release --output ${{env.DOTNET_ROOT}}\Package
+        run: dotnet pack --no-build --no-restore .\Src\BatchExtensions.csproj --configuration Release --output ${{env.DOTNET_ROOT}}\Package /p:OutputPath=${{env.DOTNET_ROOT}}\Package
 
       - name: Publish NuGet Package
         run: dotnet nuget push ${{env.DOTNET_ROOT}}\Package\*.nupkg --api-key ${{ secrets.NUGET_KEY }} --source https://api.nuget.org/v3/index.json
