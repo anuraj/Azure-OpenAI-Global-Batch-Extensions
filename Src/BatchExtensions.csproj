@@ -5,11 +5,14 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>BatchExtensions</PackageId>
     <PackageVersion Condition="'$(BUILD_VERSION)' != ''">$(BUILD_VERSION)</PackageVersion>
     <PackageVersion Condition="'$(BUILD_VERSION)' == ''">1.0.0</PackageVersion>
     <Authors>Anuraj</Authors>
-    <Company>https://anuraj.dev</Company>
-    <Description>This is a C# wrapper on top of the Azure OpenAI Batch API REST endpoints</Description>
+    <Description>
+      This is a C# client library for the Azure OpenAI Batch API REST endpoints.
+      More information about the Azure OpenAI Batch API can be found at https://learn.microsoft.com/azure/ai-services/openai/how-to/batch?tabs=standard-input%2Cpython-secure&amp;pivots=rest-api&amp;WT.mc_id=DT-MVP-5002040
+    </Description>
     <PackageTags>dotnet;C#;AI</PackageTags>
     <RepositoryUrl>https://github.com/anuraj/Azure-OpenAI-Global-Batch-Extensions</RepositoryUrl>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
