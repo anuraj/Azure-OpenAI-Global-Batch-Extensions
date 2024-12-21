@@ -33,7 +33,7 @@ foreach (var job in jobs.Data)
             {
                 Console.WriteLine(choice.Message.Content);
             });
-            
+
             Console.WriteLine();
         }
     }
@@ -68,3 +68,5 @@ foreach (var job in jobs.Data)
 ```
 
 For the example file checkout [Prepare your batch file](https://learn.microsoft.com/azure/ai-services/openai/how-to/batch?tabs=standard-input%2Cpython-secure&pivots=rest-api&WT.mc_id=DT-MVP-5002040#preparing-your-batch-file).
+
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/anuraj/Azure-OpenAI-Global-Batch-Extensions/main.yml) ![NuGet Version](https://img.shields.io/nuget/v/BatchExtensions)

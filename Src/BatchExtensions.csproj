@@ -17,6 +17,7 @@
     <RepositoryUrl>https://github.com/anuraj/Azure-OpenAI-Global-Batch-Extensions</RepositoryUrl>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
