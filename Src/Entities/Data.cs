@@ -31,7 +31,7 @@ public class Data
     [JsonPropertyName("input_file_id")]
     public string? InputFileId { get; set; }
     [JsonPropertyName("errors")]
-    public string? Errors { get; set; }
+    public object? Errors { get; set; }
     [JsonPropertyName("metadata")]
     public string? Metadata { get; set; }
     [JsonPropertyName("object")]

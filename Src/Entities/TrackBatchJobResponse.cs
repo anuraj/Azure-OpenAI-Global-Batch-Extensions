@@ -31,7 +31,7 @@ public class TrackBatchJobResponse
     [JsonPropertyName("input_file_id")]
     public string? InputFileId { get; set; }
     [JsonPropertyName("errors")]
-    public string? Errors { get; set; }
+    public object? Errors { get; set; }
     [JsonPropertyName("metadata")]
     public string? Metadata { get; set; }
     [JsonPropertyName("object")]
@@ -41,5 +41,5 @@ public class TrackBatchJobResponse
     [JsonPropertyName("request_counts")]
     public RequestCounts? RequestCounts { get; set; }
     [JsonPropertyName("status")]
-    public TrackBatchJobStatus Status { get; set; }
+    public TrackBatchJobStatus? Status { get; set; }
 }
