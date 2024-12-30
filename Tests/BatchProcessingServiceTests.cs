@@ -128,4 +128,28 @@ public class BatchProcessingServiceTests
         mockHandler.Protected().Verify("SendAsync", Times.Exactly(1),
             ItExpr.Is<HttpRequestMessage>(m => m.Method == HttpMethod.Get), ItExpr.IsAny<CancellationToken>());
     }
+
+    [Fact]
+    public async Task CreateBatchJobAsyncReturnSuccess()
+    {
+        var createBatchJobRequest = new CreateBatchJobResponse()
+        {
+            Id = "id",
+            Status = "status",
+            CreatedAt = 1,
+            Object = "object",
+        };
+        var mockHandler = new Mock<HttpMessageHandler>(MockBehavior.Strict);
+        mockHandler.Protected().Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+            .ReturnsAsync(new HttpResponseMessage()
+            {
+                StatusCode = HttpStatusCode.OK,
+                Content = new StringContent(JsonSerializer.Serialize(createBatchJobRequest), Encoding.UTF8, "application/json")
+            });
+        var httpClient = new HttpClient(mockHandler.Object);
+        var batchProcessingService = new BatchProcessingService("example", Guid.NewGuid().ToString("N"), httpClient: httpClient);
+        var createBatchJobResponse = await batchProcessingService.CreateBatchJobAsync("id");
+        mockHandler.Protected().Verify("SendAsync", Times.Exactly(1),
+            ItExpr.Is<HttpRequestMessage>(m => m.Method == HttpMethod.Post), ItExpr.IsAny<CancellationToken>());
+    }
 }
